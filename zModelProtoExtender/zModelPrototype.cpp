@@ -306,7 +306,6 @@ namespace GOTHIC_ENGINE {
     InjectedProtoList.Remove( this );
 
     refCtr = 1;
-    DeleteFromDelayedReleaseQueue();
     delete this;
     return 0;
   }
@@ -471,53 +470,36 @@ namespace GOTHIC_ENGINE {
   Array<zCModelPrototype::TDelayedReleaseContext> zCModelPrototype::DelayedReleaseQueue;
 
   void zCModelPrototype::UpdateDelayedReleaseQueue() {
-    static uint delay = 5000;
-    uint now = Timer::GetTime();
+    for( int i = 0; i < static_cast<int>(DelayedReleaseQueue.GetNum()); i++ ) {
+      TDelayedReleaseContext& context = DelayedReleaseQueue[i];
+      zCModelPrototype* proto = context.Proto;
+      zCModel* model = context.Model;
+      bool remove = true;
 
-    for( uint i = 0; i < DelayedReleaseQueue.GetNum(); i++ ) {
-      auto context = DelayedReleaseQueue[i];
-      if( now - context.StartTime < delay )
+      for( int k = 0; remove && k < model->numActiveAnis; k++ )
+        if( zCModelAniActive* activeAni = model->aniChannels[k] )
+          if( zCModelAni* protoAni = proto->SearchAni( activeAni->protoAni->aniName ) )
+            if( activeAni->protoAni == protoAni ) {
+              remove = false;
+              break;
+            }
+
+      if( !remove )
         continue;
 
+      proto->Release_Union();
+      model->Release();
       DelayedReleaseQueue.RemoveAt( i-- );
-      string releasedProtoName = context.Proto->modelProtoName;
-      int release;
-      
-      for( uint j = 0; j < context.ReleasesCount; j++ )
-        release = context.Proto->Release();
-
-      cmd << releasedProtoName << " was released " << release << endl;
     }
   }
 
 
 
-  void zCModelPrototype::DelayedRelease() {
-    uint now = Timer::GetTime();
-    for( uint i = 0; i < DelayedReleaseQueue.GetNum(); i++ ) {
-      auto& context = DelayedReleaseQueue[i];
-      if( context.Proto == this ) {
-        context.StartTime = now;
-        context.ReleasesCount++;
-        return;
-      }
-    }
-
+  void zCModelPrototype::DelayedRelease( zCModel* model ) {
     auto& context = DelayedReleaseQueue.Create();
     context.Proto = this;
-    context.StartTime = now;
-    context.ReleasesCount = 1;
+    context.Model = model;
+    context.Model->AddRef();
   }
 
-
-
-  void zCModelPrototype::DeleteFromDelayedReleaseQueue() {
-    for( uint i = 0; i < DelayedReleaseQueue.GetNum(); i++ ) {
-      if( DelayedReleaseQueue[i].Proto == this ) {
-        cmd << "unrelease " << this->modelProtoName << endl;
-        DelayedReleaseQueue.RemoveAt( i );
-        return;
-      }
-    }
-  }
 }

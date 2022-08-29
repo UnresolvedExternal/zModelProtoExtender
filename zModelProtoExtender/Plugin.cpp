@@ -58,12 +58,10 @@ namespace GOTHIC_ENGINE {
   }
 
   void LoadBegin() {
-    IsInGame = false;
     ModelProtoUniqueList.Clear();
   }
 
   void LoadEnd() {
-    IsInGame = true;
   }
 
   void Game_LoadBegin_NewGame() {

@@ -82,8 +82,8 @@ namespace GOTHIC_ENGINE {
     if (isIn && !modelProtoList.IsInList( modelProto )) {
       // Hmmm, this overlay will works a some
       // seconds for a 'soft' anis replacing.
-      if( !DeactivateAdditionalAnis(modelProto) )
-        modelProto->DelayedRelease();
+      if( !DeactivateAdditionalAnis( modelProto ) )
+        modelProto->DelayedRelease( this );
       else
         modelProto->Release();
     }

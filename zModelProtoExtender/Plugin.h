@@ -3,5 +3,4 @@
 // File: "Headers.h"
 
 namespace GOTHIC_ENGINE {
-  static bool IsInGame = false;
 }
