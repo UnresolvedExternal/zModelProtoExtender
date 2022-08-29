@@ -31,11 +31,9 @@ static zCModelPrototype* Load_Union2( zSTRING const&, zCModelPrototype* );
 
 struct TDelayedReleaseContext {
   zCModelPrototype* Proto;
-  uint StartTime;
-  uint ReleasesCount;
+  zCModel* Model;
 };
 
 static Array<TDelayedReleaseContext> DelayedReleaseQueue;
 static void UpdateDelayedReleaseQueue();
-void DelayedRelease();
-void DeleteFromDelayedReleaseQueue();
+void DelayedRelease( zCModel* );
