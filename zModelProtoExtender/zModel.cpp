@@ -30,8 +30,7 @@ namespace GOTHIC_ENGINE {
 
     bool_t Ok = False;
     if( modelProto ) {
-      ActivateAdditionalAnis( modelProto );
-      Ok = ApplyModelProtoOverlay( modelProto );
+      Ok = ApplyModelProtoOverlay_Union2( modelProto );
       modelProto->Release();
     }
 
@@ -39,7 +38,18 @@ namespace GOTHIC_ENGINE {
     return Ok;
   };
 
+  HOOK Hook_zCModel_ApplyModelProtoOverlay_2 PATCH(&zCModel::ApplyModelProtoOverlay, &zCModel::ApplyModelProtoOverlay_Union2);
 
+  int zCModel::ApplyModelProtoOverlay_Union2( zCModelPrototype* modelProto ) {
+    if( !modelProto || modelProtoList.IsEmpty() || modelProtoList.IsInList(modelProto) || modelProtoList[0] != modelProto->baseModelProto )
+      return false;
+
+    ActivateAdditionalAnis( modelProto );
+    modelProtoList.InsertEnd( modelProto );
+    modelProto->AddRef();
+
+    return true;
+  }
 
   HOOK Hook_oCNpc_ApplyOverlay PATCH( &oCNpc::ApplyOverlay, &oCNpc::ApplyOverlay_Union );
 
@@ -63,15 +73,16 @@ namespace GOTHIC_ENGINE {
   HOOK Hook_zCModel_RemoveModelProtoOverlay PATCH( &zCModel::RemoveModelProtoOverlay, &zCModel::RemoveModelProtoOverlay_Union );
 
   void zCModel::RemoveModelProtoOverlay_Union( zCModelPrototype* modelProto ) {
+    if( !modelProtoList.IsInList( modelProto ))
+      return;
+
     CurrentModel = this;
 
-    modelProto->AddRef();
-    THISCALL( Hook_zCModel_RemoveModelProtoOverlay )(modelProto);
-    DeactivateAdditionalAnis( modelProto );
+    modelProtoList.RemoveOrder( modelProto );
 
     // Hmmm, this overlay will works a some
     // seconds for a 'soft' anis replacing.
-    if( IsInGame )
+    if( !DeactivateAdditionalAnis(modelProto) )
       modelProto->DelayedRelease();
     else
       modelProto->Release();
@@ -101,13 +112,23 @@ namespace GOTHIC_ENGINE {
   // replacing all active animations
   // to new overlay anis
   void zCModel::ActivateAdditionalAnis( zCModelPrototype* modelProto ) {
-    for( int i = 0; i < modelProto->protoAnis.GetNum(); i++ ) {
-      zCModelAni* ani = modelProto->protoAnis[i];
+    Array<zCModelAni**> anis;
 
-      if( ani )
-        if( !ReplaceActiveAni( ani ) )
-          return StopAnisLayerRange( 0, 9999 );
+    for( int i = 0; i < numActiveAnis; i++ ) {
+      anis.InsertEnd( &aniChannels[i]->nextAni );
+      anis.InsertEnd( &aniChannels[i]->nextAniOverride );
     }
+
+    for each( zCModelAni** nextAni in anis )
+      if( zCModelAni*& ani = *nextAni )
+        if( zCModelAni* newAni = modelProto->SearchAni( ani->aniName ) )
+          ani = newAni;
+
+    for( int i = 0; i < numActiveAnis; i++ )
+      if( zCModelAniActive* activeAni = aniChannels[i] )
+        if( !activeAni->isFadingOut )
+          if( activeAni->protoAni != modelProto->SearchAni(activeAni->protoAni->aniName) )
+            FadeOutAni( activeAni );
   }
 
 
@@ -115,16 +136,38 @@ namespace GOTHIC_ENGINE {
   // 'Soft' overlay removing with
   // replacing all active ovrerlay
   // animations to bottom-level anis
-  void zCModel::DeactivateAdditionalAnis( zCModelPrototype* modelProto ) {
-    for( int i = 0; i < modelProto->protoAnis.GetNum(); i++ ) {
-      zCModelAni* ani = modelProto->protoAnis[i];
+  bool zCModel::DeactivateAdditionalAnis( zCModelPrototype* modelProto ) {
+    bool instant = true;
 
-      if( ani ) {
-        zCModelAni* oldAni = GetAniFromAniID( i );
-        if( !ReplaceActiveAni( oldAni ) )
-          return StopAnisLayerRange( 0, 9999 );
-      }
+    for( int i = 0; i < numActiveAnis; i++ )
+      if( zCModelAniActive* activeAni = aniChannels[i] )
+        if( activeAni->protoAni == modelProto->SearchAni(activeAni->protoAni->aniName) ) {
+          FadeOutAni( activeAni );
+          instant = false;
+        }
+
+    Array<zCModelAni**> anis;
+
+    for( int i = 0; i < numActiveAnis; i++ ) {
+      anis.InsertEnd( &aniChannels[i]->nextAni );
+      anis.InsertEnd( &aniChannels[i]->nextAniOverride );
     }
+
+    for each( zCModelAni** nextAni in anis )
+      if( zCModelAni*& ani = *nextAni )
+        if( zCModelAni* newAni = modelProto->SearchAni( ani->aniName) )
+          if( ani == newAni ) {
+            const zSTRING aniName = ani->aniName;
+            ani = Null;
+
+            for( int i = modelProtoList.GetNum() - 1; i >= 0; i-- )
+              if ( zCModelAni* protoAni = modelProtoList[i]->SearchAni( aniName ) ) {
+                ani = protoAni;
+                break;
+              }
+          }
+
+    return instant;
   }
 
 
@@ -137,35 +180,6 @@ namespace GOTHIC_ENGINE {
     
     return Null;
   }
-
-
-
-  // Replace current active animation
-  // to other animation with same name
-  bool zCModel::ReplaceActiveAni( zCModelAni* ani ) {
-    if( !IsInGame || !ani )
-      return false;
-
-    zCModelAniActive* aniActive = GetActiveAni( ani->aniName );
-    if( !aniActive )
-      return true;
-
-    if( !aniActive->isFadingOut ) {
-      aniActive->isFirstTime     = True;
-      aniActive->rotFirstTime    = True;
-      aniActive->SetProgressPercent( 1.0f );
-      aniActive->nextAniOverride = ani;
-    }
-    else
-    {
-      cmd << "Can't smoothing " << ani->aniName   << endl;
-      return false;
-    }
-
-    return true;
-  }
-
-
 
   HOOK Hook_zCModel_CopyProtoNodeList PATCH( &zCModel::CopyProtoNodeList, &zCModel::CopyProtoNodeList_Union );
 

@@ -5,12 +5,12 @@
 
 int GetAniIDFromAniName_Union( zSTRING const& ) const;
 int ApplyModelProtoOverlay_Union( const zSTRING& mdsFileName );
+int ApplyModelProtoOverlay_Union2( zCModelPrototype* );
 void RemoveModelProtoOverlay_Union( zCModelPrototype* );
 void RemoveModelProtoOverlayByName_Union( zSTRING const& );
 zCModelAniActive* GetActiveAni( const zSTRING& aniName );
-bool ReplaceActiveAni( zCModelAni* ani );
 void ActivateAdditionalAnis( zCModelPrototype* modelProto );
-void DeactivateAdditionalAnis( zCModelPrototype* modelProto );
+bool DeactivateAdditionalAnis( zCModelPrototype* modelProto );
 void CheckAndApplyModelContext( zCModelPrototype* modelProto );
 void RenameModelAni( zCModelPrototype* modelProto, zSTRING oldName, zSTRING newName );
 void CopyProtoNodeList_Union();
