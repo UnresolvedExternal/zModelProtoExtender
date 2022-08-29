@@ -9,15 +9,23 @@ namespace GOTHIC_ENGINE {
   void Game_Entry() {
 #if ENGINE == Engine_G1
     PATCH_EXECUTE( HEX @0x0055E60B = 'EB 29' );
+    PATCH_EXECUTE( HEX @0x0055F6B6 = 'EB' );
+    PATCH_EXECUTE( HEX @0x0055F0F5 = 'EB' );
 #endif
 #if ENGINE == Engine_G1A
     PATCH_EXECUTE( HEX @0x0057699C = 'EB 29' );
+    PATCH_EXECUTE( HEX @0x00577AA0 = 'EB' );
+    PATCH_EXECUTE( HEX @0x0057748C = 'EB' );
 #endif
 #if ENGINE == Engine_G2
     PATCH_EXECUTE( HEX @0x00572B4A = 'EB 29' );
+    PATCH_EXECUTE( HEX @0x00573C86 = 'EB' );
+    PATCH_EXECUTE( HEX @0x00573688 = 'EB' );
 #endif
 #if ENGINE == Engine_G2A
     PATCH_EXECUTE( HEX @0x00577DFA = 'EB 29' );
+    PATCH_EXECUTE( HEX @0x00578F36 = 'EB' );
+    PATCH_EXECUTE( HEX @0x00578938 = 'EB' );
 #endif
   }
 

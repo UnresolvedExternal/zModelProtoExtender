@@ -38,17 +38,15 @@ namespace GOTHIC_ENGINE {
     return Ok;
   };
 
-  HOOK Hook_zCModel_ApplyModelProtoOverlay_2 PATCH(&zCModel::ApplyModelProtoOverlay, &zCModel::ApplyModelProtoOverlay_Union2);
+  HOOK Hook_zCModel_ApplyModelProtoOverlay_2 PATCH( &zCModel::ApplyModelProtoOverlay, &zCModel::ApplyModelProtoOverlay_Union2 );
 
   int zCModel::ApplyModelProtoOverlay_Union2( zCModelPrototype* modelProto ) {
-    if( !modelProto || modelProtoList.IsEmpty() || modelProtoList.IsInList(modelProto) || modelProtoList[0] != modelProto->baseModelProto )
-      return false;
+    bool ok = THISCALL( Hook_zCModel_ApplyModelProtoOverlay_2 )( modelProto );
 
-    ActivateAdditionalAnis( modelProto );
-    modelProtoList.InsertEnd( modelProto );
-    modelProto->AddRef();
+    if( ok )
+      ActivateAdditionalAnis( modelProto );
 
-    return true;
+    return ok;
   }
 
   HOOK Hook_oCNpc_ApplyOverlay PATCH( &oCNpc::ApplyOverlay, &oCNpc::ApplyOverlay_Union );
@@ -73,19 +71,22 @@ namespace GOTHIC_ENGINE {
   HOOK Hook_zCModel_RemoveModelProtoOverlay PATCH( &zCModel::RemoveModelProtoOverlay, &zCModel::RemoveModelProtoOverlay_Union );
 
   void zCModel::RemoveModelProtoOverlay_Union( zCModelPrototype* modelProto ) {
-    if( !modelProtoList.IsInList( modelProto ))
-      return;
+    CurrentModel = this; 
 
-    CurrentModel = this;
+    if( modelProto )
+      modelProto->AddRef();
 
-    modelProtoList.RemoveOrder( modelProto );
+    const bool isIn = modelProto && modelProtoList.IsInList( modelProto );
+    THISCALL( Hook_zCModel_RemoveModelProtoOverlay )( modelProto );
 
-    // Hmmm, this overlay will works a some
-    // seconds for a 'soft' anis replacing.
-    if( !DeactivateAdditionalAnis(modelProto) )
-      modelProto->DelayedRelease();
-    else
-      modelProto->Release();
+    if (isIn && !modelProtoList.IsInList( modelProto )) {
+      // Hmmm, this overlay will works a some
+      // seconds for a 'soft' anis replacing.
+      if( !DeactivateAdditionalAnis(modelProto) )
+        modelProto->DelayedRelease();
+      else
+        modelProto->Release();
+    }
 
     CurrentModel = Null;
   }
