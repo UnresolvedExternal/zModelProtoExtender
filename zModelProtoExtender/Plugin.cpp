@@ -1,6 +1,8 @@
 // This file added in headers queue
 // File: "Sources.h"
 
+#include "resource.h"
+
 namespace GOTHIC_ENGINE {
 
   // TO DO
@@ -27,6 +29,13 @@ namespace GOTHIC_ENGINE {
     PATCH_EXECUTE( HEX @0x00578F36 = 'EB' );
     PATCH_EXECUTE( HEX @0x00578938 = 'EB' );
 #endif
+
+    CPatchInteger hook_zTMdl_AniSample_Unpack;
+    hook_zTMdl_AniSample_Unpack.Init();
+    hook_zTMdl_AniSample_Unpack.SetObjectName( "hook_zTMdl_AniSample_Unpack" );
+    hook_zTMdl_AniSample_Unpack.SetValue( reinterpret_cast<int>( TInstance( &zTMdl_AniSample::Unpack_Union ).data ) );
+
+    CPatch::ExecuteResource(CPlugin::GetCurrentPlugin()->GetModule(), MAKEINTRESOURCE(IDR_PATCH1), "PATCH");
   }
 
   void Game_Init() {

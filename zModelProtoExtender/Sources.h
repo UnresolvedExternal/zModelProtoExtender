@@ -5,6 +5,8 @@
 #pragma region Includes
 #include "zModelPrototype.cpp"
 #include "zModel.cpp"
+#include "zTMdl_AniSample.cpp"
+#include "zModelAniActive.cpp"
 #include "Plugin.cpp"
 #pragma endregion
 

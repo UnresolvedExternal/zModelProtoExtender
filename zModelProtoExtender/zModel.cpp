@@ -1,6 +1,8 @@
 // Supported with union (c) 2020 Union team
 // Union SOURCE file
 
+#include <unordered_map>
+
 namespace GOTHIC_ENGINE {
   HOOK Hook_zCModel_GetAniIDFromAniName_Union PATCH( &zCModel::GetAniIDFromAniName, &zCModel::GetAniIDFromAniName_Union );
 
@@ -80,6 +82,8 @@ namespace GOTHIC_ENGINE {
     THISCALL( Hook_zCModel_RemoveModelProtoOverlay )( modelProto );
 
     if (isIn && !modelProtoList.IsInList( modelProto )) {
+      RemoveFromAniHistory( modelProto );
+
       // Hmmm, this overlay will works a some
       // seconds for a 'soft' anis replacing.
       if( !DeactivateAdditionalAnis( modelProto ) )
@@ -107,7 +111,48 @@ namespace GOTHIC_ENGINE {
         return RemoveModelProtoOverlay_Union( modelProtoList[i] );
   }
 
+  class AniStarter
+  {
+  private:
+    struct AniStartInfo
+    {
+      zCModelAni* protoAni;
+      float progress;
 
+      void ModifyAni( zCModelAniActive* activeAni ) const {
+        activeAni->SetProgressPercent_Union( progress );
+      }
+
+      void Init( zCModelAniActive* activeAni ) {
+        progress = activeAni->GetProgressPercent();
+      }
+    };
+
+    zCModel& model;
+    std::vector<AniStartInfo> anis;
+
+  public:
+    AniStarter(zCModel* model) : model(*model) {
+    }
+
+    void Enqueue( zCModelAniActive* activeAni, zCModelAni* newAni = Null ) {
+      if( zCModelAni* protoAni = newAni ? newAni : model.GetAniFromAniID( model.GetAniIDFromAniName( activeAni->protoAni->aniName ) ) ) {
+        anis.emplace_back();
+        AniStartInfo& info = anis.back();
+        info.protoAni = protoAni;
+        info.Init( activeAni );
+      }
+    }
+
+    ~AniStarter() {
+      for each( const AniStartInfo& info in anis ) {
+        model.StartAni( info.protoAni, zCModel::zMDL_STARTANI_FORCE );
+
+        if( zCModelAniActive* activeAni = model.GetActiveAni( info.protoAni ) )
+          info.ModifyAni( activeAni );
+      }
+    }
+  };
 
   // 'Soft' overlay adding with
   // replacing all active animations
@@ -125,11 +170,19 @@ namespace GOTHIC_ENGINE {
         if( zCModelAni* newAni = modelProto->SearchAni( ani->aniName ) )
           ani = newAni;
 
+    AniStarter aniStarter(this);
+
     for( int i = 0; i < numActiveAnis; i++ )
       if( zCModelAniActive* activeAni = aniChannels[i] )
-        if( !activeAni->isFadingOut )
-          if( activeAni->protoAni != modelProto->SearchAni(activeAni->protoAni->aniName) )
-            FadeOutAni( activeAni );
+        if( !activeAni->isFadingOut ) {
+          zCModelAni* newAni = modelProto->SearchAni( activeAni->protoAni->aniName );
+
+          if( activeAni->protoAni == newAni || !newAni )
+            continue;
+
+          aniStarter.Enqueue( activeAni, newAni );
+          FadeOutAni( activeAni );
+        }
   }
 
 
@@ -139,15 +192,19 @@ namespace GOTHIC_ENGINE {
   // animations to bottom-level anis
   bool zCModel::DeactivateAdditionalAnis( zCModelPrototype* modelProto ) {
     bool instant = true;
+    AniStarter aniStarter(this);
 
     for( int i = 0; i < numActiveAnis; i++ )
       if( zCModelAniActive* activeAni = aniChannels[i] )
-        if( activeAni->protoAni == modelProto->SearchAni(activeAni->protoAni->aniName) ) {
-          FadeOutAni( activeAni );
-          instant = false;
-        }
+        if( !activeAni->isFadingOut )
+          if( activeAni->protoAni == modelProto->SearchAni( activeAni->protoAni->aniName ) ) {
+            FadeOutAni( activeAni );
+            aniStarter.Enqueue( activeAni );
+            instant = false;
+          }
 
     Array<zCModelAni**> anis;
+    anis.Clear();
 
     for( int i = 0; i < numActiveAnis; i++ ) {
       anis.InsertEnd( &aniChannels[i]->nextAni );
@@ -171,7 +228,35 @@ namespace GOTHIC_ENGINE {
     return instant;
   }
 
+  class FakeAniHistoryPool
+  {
+  private:
+    int nextIndex;
+    zSTRING aniNames[MAX_ANIHISTORY];
 
+    zCModelAni* GetFakeAni( int index ) {
+      return reinterpret_cast<zCModelAni*>( reinterpret_cast<char*>( &aniNames[index] ) - 0x24 );
+    }
+
+  public:
+    zCModelAni* CreateFakeAni( zCModelAni* protoAni ) {
+      if( nextIndex < 0 || nextIndex >= MAX_ANIHISTORY )
+        nextIndex = 0;
+
+      aniNames[nextIndex] = protoAni->aniName;
+      return GetFakeAni( nextIndex++ );
+    }
+  };
+
+  std::unordered_map<zCModel*, FakeAniHistoryPool> fakeAniPools;
+
+  void zCModel::RemoveFromAniHistory( zCModelPrototype* modelProto ) {
+    if( aniHistoryList )
+      for( int i = 0; i < MAX_ANIHISTORY; i++ )
+        if( zCModelAni*& ani = aniHistoryList[i] )
+          if( modelProto->SearchAni( ani->aniName ) == ani )
+            ani = fakeAniPools[this].CreateFakeAni( ani );
+  }
 
   // Find active animation by name
   zCModelAniActive* zCModel::GetActiveAni( const zSTRING& aniName ) {
@@ -230,5 +315,7 @@ namespace GOTHIC_ENGINE {
     for( int i = 0; i < nodes.GetNum(); i++ )
       if( nodes[i] )
         delete nodes[i];
+
+    fakeAniPools.erase( this );
   };
 }

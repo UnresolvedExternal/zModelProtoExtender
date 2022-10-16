@@ -12,6 +12,7 @@ zCModelAniActive* GetActiveAni( const zSTRING& aniName );
 void ActivateAdditionalAnis( zCModelPrototype* modelProto );
 bool DeactivateAdditionalAnis( zCModelPrototype* modelProto );
 void CheckAndApplyModelContext( zCModelPrototype* modelProto );
+void RemoveFromAniHistory( zCModelPrototype* modelProto );
 void RenameModelAni( zCModelPrototype* modelProto, zSTRING oldName, zSTRING newName );
 void CopyProtoNodeList_Union();
 void Destructor();

@@ -2789,6 +2789,13 @@
     <ClInclude Include="zUtils.h">
       <Filter>Plugin\zModelProtoExtender</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="zTMdl_AniSample.cpp">
+      <Filter>Plugin\zModelProtoExtender</Filter>
+    </ClInclude>
+    <ClInclude Include="zModelAniActive.cpp">
+      <Filter>Plugin\zModelProtoExtender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".build_settings.inl">
@@ -4666,5 +4673,16 @@
     <None Include="ZenGin\Gothic_UserAPI\zCLine2D.inl">
       <Filter>Engine SDK\User API\zEngine\L</Filter>
     </None>
+    <None Include="zLastFrameAniTransLerp.patch">
+      <Filter>Plugin\zModelProtoExtender</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zModelProtoExtender.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="zModelProtoExtender_HideCalls.patch">
+      <Filter>Plugin\zModelProtoExtender</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

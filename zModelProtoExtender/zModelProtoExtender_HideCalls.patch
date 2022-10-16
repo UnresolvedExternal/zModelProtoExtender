@@ -1,0 +1,6 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zModelProtoExtender_HideCalls]
+		INT text_zCModel_AdvanceAnis_call_strafoNext_Unpack = ZenDef(0x005630FD, 0x0057B86D, 0x00577AE1, 0x0057D001)
+		HEX @text_zCModel_AdvanceAnis_call_strafoNext_Unpack = '90 90 90 90 90'
+	#/patch
+#/engine

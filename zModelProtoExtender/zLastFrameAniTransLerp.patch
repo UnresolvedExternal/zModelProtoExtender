@@ -1,0 +1,17 @@
+#engine [G1, G1A, G2, G2A]
+	#patch [zLastFrameAniTransLerp]
+		// engine specific
+		INT text_zCModel_AdvanceAnis_call_strafoNext_Unpack = ZenDef(0x005630FD, 0x0057B86D, 0x00577AE1, 0x0057D001)
+		
+		INT var_zCModel_AdvanceAnis_noLerpPosSample = ZenDef(0x5C, 0x60, 0x60, 0x60)
+		// end of engine specific
+		
+		#assembler [text_zCModel_AdvanceAnis_call_strafoNext_Unpack]
+			push edx
+			lea edx, [esp+$var_zCModel_AdvanceAnis_noLerpPosSample]
+			push edx
+			mov edx, esi
+			call $hook_zTMdl_AniSample_Unpack
+		#/assembler
+	#/patch
+#/engine

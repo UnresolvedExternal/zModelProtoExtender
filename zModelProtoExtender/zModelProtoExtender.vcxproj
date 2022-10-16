@@ -46,7 +46,7 @@
     <ProjectGuid>{9621ed39-8bfb-4500-8d11-ad4fd9f159e3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>zModelProtoExtender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
     <ProjectName>zModelProtoExtender</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -54,66 +54,66 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2A Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2 Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1A Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1 Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MP Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2A Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2 Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1A Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1 Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -152,63 +152,63 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MP Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2A Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2 Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1A Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1 Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MP Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2A Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G2 Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1A Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='G1 Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)\ZenGin\Gothic_UserAPI\;$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Include\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Lib\;$(ALLUSERSPROFILE)\Union\SDK\DirectX7\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MP Debug|Win32'">
     <ClCompile>
@@ -227,7 +227,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -251,7 +251,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -275,7 +275,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -299,7 +299,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -323,7 +323,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -351,7 +351,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -379,7 +379,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -407,7 +407,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -435,7 +435,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -463,7 +463,7 @@
       <ProgramDatabaseFile>$(SolutionDir)PDB\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <PreBuildEvent>
-      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0i\Build\beforebuild.exe $(SolutionDir)</Command>
+      <Command>$(ALLUSERSPROFILE)\Union\SDK\Union\v1.0l\Build\beforebuild.exe $(SolutionDir)</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -486,11 +486,20 @@
     <ClCompile Include="ZenGin\Gothic_I_Classic\ClassDeclarators_G1.cpp" />
     <ClCompile Include="ZenGin\Gothic_I_Classic\Globals_G1.cpp" />
     <ClCompile Include="ZenGin\Gothic_I_Classic\Statics_G1.cpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="zModel.cpp">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="zModelAniActive.cpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="zModelPrototype.cpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="zTMdl_AniSample.cpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1965,6 +1974,13 @@
     <None Include="ZenGin\Gothic_UserAPI\zVEC2.inl" />
     <None Include="ZenGin\Gothic_UserAPI\zVEC3.inl" />
     <None Include="ZenGin\Gothic_UserAPI\zVEC4.inl" />
+    <CopyFileToFolders Include="zModelProtoExtender_HideCalls.patch">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <None Include="zLastFrameAniTransLerp.patch" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zModelProtoExtender.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
