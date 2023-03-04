@@ -196,12 +196,14 @@ namespace GOTHIC_ENGINE {
 
     for( int i = 0; i < numActiveAnis; i++ )
       if( zCModelAniActive* activeAni = aniChannels[i] )
-        if( !activeAni->isFadingOut )
-          if( activeAni->protoAni == modelProto->SearchAni( activeAni->protoAni->aniName ) ) {
+        if( activeAni->protoAni == modelProto->SearchAni( activeAni->protoAni->aniName ) ) {
+          if( !activeAni->isFadingOut ) {
             FadeOutAni( activeAni );
             aniStarter.Enqueue( activeAni );
-            instant = false;
           }
+
+          instant = false;
+        }
 
     Array<zCModelAni**> anis;
     anis.Clear();

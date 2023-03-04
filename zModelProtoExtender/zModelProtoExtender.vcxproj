@@ -46,7 +46,6 @@
     <ProjectGuid>{9621ed39-8bfb-4500-8d11-ad4fd9f159e3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>zModelProtoExtender</RootNamespace>
-    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
     <ProjectName>zModelProtoExtender</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
