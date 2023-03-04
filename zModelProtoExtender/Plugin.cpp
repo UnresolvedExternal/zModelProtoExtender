@@ -32,9 +32,9 @@ namespace GOTHIC_ENGINE {
 
     CPatchInteger hook_zTMdl_AniSample_Unpack;
     hook_zTMdl_AniSample_Unpack.Init();
+    hook_zTMdl_AniSample_Unpack.DontRemove();
     hook_zTMdl_AniSample_Unpack.SetObjectName( "hook_zTMdl_AniSample_Unpack" );
     hook_zTMdl_AniSample_Unpack.SetValue( reinterpret_cast<int>( TInstance( &zTMdl_AniSample::Unpack_Union ).data ) );
-
     CPatch::ExecuteResource(CPlugin::GetCurrentPlugin()->GetModule(), MAKEINTRESOURCE(IDR_PATCH1), "PATCH");
   }
 
