@@ -230,6 +230,47 @@ namespace GOTHIC_ENGINE {
     return instant;
   }
 
+  void zCModel::CorrectAnisOrder() {
+    for( int i = 0; i < numActiveAnis - 1; i++ )
+      if( zCModelAniActive*& leftAni = aniChannels[i] )
+        for( int k = i + 1; k < numActiveAnis; k++ )
+          if( zCModelAniActive*& rightAni = aniChannels[k] )
+            if( leftAni->protoAni->aniID == rightAni->protoAni->aniID )
+              if( leftAni->protoAni == rightAni->protoAni ) {
+                if( leftAni->isFadingOut && !rightAni->isFadingOut )
+                  std::swap( leftAni, rightAni );
+              } else {
+                bool swapped = false;
+
+                for( int m = modelProtoList.GetNum() - 1; m >= 0; m-- )
+                  if( modelProtoList[m]->protoAnis.GetNum() > leftAni->protoAni->aniID )
+                    if( zCModelAni* protoAni = modelProtoList[m]->protoAnis[leftAni->protoAni->aniID] )
+                      if( rightAni->protoAni == protoAni ) {
+                        std::swap( leftAni, rightAni );
+                        swapped = true;
+                        break;
+                      }
+                 
+                if( !swapped )
+                  if( leftAni->isFadingOut && !rightAni->isFadingOut )
+                    std::swap( leftAni, rightAni );
+              }
+  }
+
+  HOOK Hook_zCModel_StartAni PATCH( &zCModel::StartAni, &zCModel::StartAni_Union );
+
+  void zCModel::StartAni_Union( zCModelAni* protoAni, int startMode ) {
+    THISCALL( Hook_zCModel_StartAni )( protoAni, startMode );
+    CorrectAnisOrder();
+  }
+
+  HOOK Hook_zCModel_FadeOutAni PATCH( &zCModel::FadeOutAni, &zCModel::FadeOutAni_Union );
+
+  void zCModel::FadeOutAni_Union( zCModelAniActive* ani ) {
+    THISCALL( Hook_zCModel_FadeOutAni )( ani );
+    CorrectAnisOrder();
+  }
+
   class FakeAniHistoryPool
   {
   private:

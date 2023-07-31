@@ -16,3 +16,6 @@ void RemoveFromAniHistory( zCModelPrototype* modelProto );
 void RenameModelAni( zCModelPrototype* modelProto, zSTRING oldName, zSTRING newName );
 void CopyProtoNodeList_Union();
 void Destructor();
+void CorrectAnisOrder();
+void StartAni_Union( zCModelAni* protoAni, int startMode );
+void FadeOutAni_Union( zCModelAniActive* ani );
