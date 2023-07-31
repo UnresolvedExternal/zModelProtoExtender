@@ -27,17 +27,30 @@ namespace GOTHIC_ENGINE {
   }
 
   void zCModelAniActive::SetProgressPercent_Union( float progress ) {
-    zCModelAniActive::SetProgressPercent( progress );
+    if( protoAni->numFrames <= 0 )
+      actFrame = 0.0f;
+    else {
+      if( advanceDir >= 0 )
+        actFrame = progress * static_cast<float>( protoAni->numFrames );
+      else
+        actFrame = ( 1.0f - progress ) * static_cast<float>( protoAni->numFrames );
+      
+      if( actFrame < 0.0f )
+        actFrame = 0.0f;
+      else if( actFrame > static_cast<float>( protoAni->numFrames ) )
+        actFrame = static_cast<float>(protoAni->numFrames) - 0.0001f;
+    }
+
     lastPos = thisPos = CalcTranslation();
 
     if( advanceDir != 1 && advanceDir != -1 )
       return;
 
     while( actAniEvent >= 0 && actAniEvent < protoAni->numAniEvents ) {
-      if( advanceDir == 1 && actFrame < protoAni->aniEvents[actAniEvent].frameNr )
+      if( advanceDir == 1 && actFrame < static_cast<float>( protoAni->aniEvents[actAniEvent].frameNr ) )
         break;
 
-      if( advanceDir == -1 && actFrame > protoAni->aniEvents[actAniEvent].frameNr )
+      if( advanceDir == -1 && actFrame > static_cast<float>( protoAni->aniEvents[actAniEvent].frameNr ) )
         break;
 
       actAniEvent += advanceDir;
