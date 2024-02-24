@@ -1,6 +1,6 @@
 // Supported with union (c) 2020 Union team
 // Union SOURCE file
-#include <set>
+#include <unordered_set>
 
 namespace GOTHIC_ENGINE {
   static MapArray<zCModelPrototype*, zCModelPrototype*> ModelProtoUniqueList;
@@ -134,7 +134,7 @@ namespace GOTHIC_ENGINE {
 
 
   void zCModelPrototype::UpdateNpcsAniIndexes( zCModelPrototype* baseProto, const Array<int>& insertedAnis ) {
-    std::set<oCNpc*> updatedNpcs;
+    std::unordered_set<oCNpc*> updatedNpcs;
 
     for( auto* list = ogame->GetGameWorld()->voblist_npcs->next; list; list = list->next )
       if( oCNpc* npc = list->data )
