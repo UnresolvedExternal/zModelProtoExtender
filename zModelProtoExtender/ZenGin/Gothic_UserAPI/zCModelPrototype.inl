@@ -11,7 +11,7 @@ static zCModelPrototype* Load_Union( zSTRING const&, zCModelPrototype* );
 zCModelPrototype* InjectExternalModelProto( const zSTRING& protoName );
 void InjectExternalModelProtoList();
 static zCModelPrototype* SearchName_Union( zSTRING );
-static void UpdateNpcsAniCtrl( zCModelPrototype* baseProto );
+static void UpdateNpcsAniIndexes( zCModelPrototype* baseProto, const Array<int>& insertedAnis );
 void CopyAnimationsFrom( zCModelPrototype* proto );
 int AddRef() { return ++refCtr; }
 int ReadAniEnumMSB_Union( const int, zCFileBIN& );

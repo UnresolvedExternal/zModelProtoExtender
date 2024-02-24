@@ -67,6 +67,10 @@ namespace GOTHIC_ENGINE {
   }
 
   void LoadBegin() {
+    for( auto& pair : ModelProtoUniqueList )
+      for( zCModelPrototype* proto : pair.GetValues() )
+        proto->Release();
+
     ModelProtoUniqueList.Clear();
   }
 

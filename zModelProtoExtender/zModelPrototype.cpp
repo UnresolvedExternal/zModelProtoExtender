@@ -1,5 +1,6 @@
 // Supported with union (c) 2020 Union team
 // Union SOURCE file
+#include <set>
 
 namespace GOTHIC_ENGINE {
   static MapArray<zCModelPrototype*, zCModelPrototype*> ModelProtoUniqueList;
@@ -78,7 +79,7 @@ namespace GOTHIC_ENGINE {
 
       // Update animation indexes by new
       // position in the list. Must change
-      // only right objects of new inedx.
+      // only right objects of new index.
       for( int j = aniIndex; j < aniList.GetNum(); j++ )
         if( aniList[j] )
           aniList[j]->aniID = j;
@@ -96,39 +97,64 @@ namespace GOTHIC_ENGINE {
     memcpy( &s_dead1, &other->s_dead1, length );
   }
 
+  static void UpdateAniIndex(int& aniID, const Array<int>& insertedAnis)
+  {
+      if (aniID <= 0)
+          return;
+
+      for (int insertedAni : insertedAnis)
+          if (insertedAni <= aniID)
+              aniID += 1;
+  }
+
+  static void UpdateAniIndexes( oCNpc* npc, const Array<int>& insertedAnis ) {
+    UpdateAniIndex( npc->fight_waitForAniEnd, insertedAnis );
+
+    if( npc->anictrl )
+      for( int* aniID = &npc->anictrl->s_dead1; aniID < &npc->anictrl->dummyLastVar; aniID++ )
+        UpdateAniIndex( *aniID, insertedAnis );
+
+     if( zCEventManager* eventMan = npc->GetEM() )
+       for( int i = 0; i < eventMan->messageList.GetNum(); i++ )
+         if( oCNpcMessage* message = eventMan->messageList[i]->CastTo<oCNpcMessage>() )
+           if( oCMsgWeapon* weapon = message->CastTo<oCMsgWeapon>() )
+             UpdateAniIndex( weapon->ani, insertedAnis );
+           else if( oCMsgMovement* movement = message->CastTo<oCMsgMovement>() )
+             UpdateAniIndex( movement->ani, insertedAnis );
+           else if( oCMsgAttack* attack = message->CastTo<oCMsgAttack>() )
+             UpdateAniIndex( attack->hitAni, insertedAnis );
+           else if( oCMsgUseItem* useItem = message->CastTo<oCMsgUseItem>() )
+             UpdateAniIndex( useItem->ani, insertedAnis );
+           else if( oCMsgConversation* conversation = message->CastTo<oCMsgConversation>() )
+             UpdateAniIndex( conversation->ani, insertedAnis );
+           else if( oCMsgManipulate* manipulate = message->CastTo<oCMsgManipulate>() )
+             if( manipulate->subType == oCMsgManipulate::EV_TAKEVOB )
+               UpdateAniIndex( manipulate->aniID, insertedAnis );
+  }
 
 
-  void zCModelPrototype::UpdateNpcsAniCtrl( zCModelPrototype* baseProto ) {
-    oCAniCtrl_Human* baseAniCtrl = Null;
+  void zCModelPrototype::UpdateNpcsAniIndexes( zCModelPrototype* baseProto, const Array<int>& insertedAnis ) {
+    std::set<oCNpc*> updatedNpcs;
 
-    auto* list = ogame->GetGameWorld()->voblist_npcs->next;
-    while( list ) {
+    for( auto* list = ogame->GetGameWorld()->voblist_npcs->next; list; list = list->next )
+      if( oCNpc* npc = list->data )
+        if( updatedNpcs.find(npc) == end( updatedNpcs ) )
+          if( zCModel* model = npc->GetModel() )
+            if( model->modelProtoList[0] == baseProto ) {
+              UpdateAniIndexes( npc, insertedAnis );
+              updatedNpcs.insert( npc );
+            }
 
-      // At first we need to find
-      // Npcs with current base prototype.
-      oCNpc* npc = list->data;
-      zCModel* model = npc->GetModel();
-      if( model && model->modelProtoList[0] == baseProto ) {
-
-        // For next need to update
-        // all animation indexes in HumanAI.
-        if( npc->anictrl ) {
-          if( !baseAniCtrl ) {
-
-            // For first Npc in loop,
-            // calculate new indexes by method.
-            npc->anictrl->InitAnimations();
-            baseAniCtrl = npc->anictrl;
-          }
-          else
-            // For other Npcs indexes
-            // can be copied directly.
-            npc->anictrl->CopyAniIndexes( baseAniCtrl );
-        }
-      }
-
-      list = list->next;
-    }
+    if( oCSpawnManager* spawnMan = ogame->GetSpawnManager() )
+      for( int i = 0; i < spawnMan->spawnList.GetNum(); i++ )
+        if( oCSpawnManager::oSSpawnNode* spawnNode = spawnMan->spawnList[i] )
+          if( oCNpc* npc = spawnNode->npc )
+            if( updatedNpcs.find(npc) == end( updatedNpcs ) )
+              if( zCModel* model = npc->GetModel() )
+                if( model->modelProtoList[0] == baseProto ) {
+                  UpdateAniIndexes( npc, insertedAnis );
+                  updatedNpcs.insert( npc );
+                }
   }
 
 
@@ -144,8 +170,10 @@ namespace GOTHIC_ENGINE {
     // base prototype. For quick access to all overlays
     // we will map it by base prototypes. Base
     // prototypes includes in Map as Key object.
-    if( ModelProtoUniqueList[baseModelProto].IsNull() )
+    if( ModelProtoUniqueList[baseModelProto].IsNull() ) {
       ModelProtoUniqueList.Insert( baseModelProto, baseModelProto );
+      baseModelProto->AddRef();
+    }
 
     // This list must have similar animation layout
     // as baseProto. That mean all animation indexes
@@ -155,7 +183,8 @@ namespace GOTHIC_ENGINE {
     for( int i = 0; i < baseModelProto->protoAnis.GetNum(); i++ )
       aniListEquals.Insert( Null );
 
-    bool UpdateAniCtrl = false;
+    Array<int> insertedAnis;
+
     for( int i = 0; i < protoAnis.GetNum(); i++ ) {
       zCModelAni* ani = protoAnis[i];
       int index = baseModelProto->SearchAniIndex_Union( ani->aniName );
@@ -170,7 +199,7 @@ namespace GOTHIC_ENGINE {
         int newIndex = PushExternalAni( baseModelProto, ani );
         if( newIndex != Invalid ) {
           aniListEquals.InsertAtPos( ani, newIndex );
-          UpdateAniCtrl = true;
+          insertedAnis.InsertEnd( newIndex );
         }
       }
     }
@@ -180,8 +209,9 @@ namespace GOTHIC_ENGINE {
     // animation indexes in HumanAI for all Npcs
     // which have same base prototypes.
     ModelProtoUniqueList.Insert( baseModelProto, this );
-    if( UpdateAniCtrl && CurrentModel )
-      UpdateNpcsAniCtrl( baseModelProto );
+    AddRef();
+    if( !insertedAnis.IsEmpty() && CurrentModel )
+      UpdateNpcsAniIndexes( baseModelProto, insertedAnis );
 
     auto oldCompare = protoAnis.GetCompare();
     protoAnis = aniListEquals;
