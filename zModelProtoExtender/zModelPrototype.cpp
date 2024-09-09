@@ -327,10 +327,13 @@ namespace GOTHIC_ENGINE {
     if( --refCtr > 0 )
       return refCtr;
 
-    auto& injectedList = InjectedProtoList[this];
-    if( !injectedList.IsNull() ) {
+    auto& injectedListOrg = InjectedProtoList[this];
+
+    if( !injectedListOrg.IsNull() ) {
+      const auto injectedList = const_cast<const decltype( InjectedProtoList[this] )>( injectedListOrg );
+
       for each( zCModelPrototype* proto in injectedList )
-        delete proto;
+        proto->Release_Union();
     }
 
     InjectedProtoList.Remove( this );
