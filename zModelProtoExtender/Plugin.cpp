@@ -42,6 +42,11 @@ namespace GOTHIC_ENGINE {
   }
 
   void Game_Exit() {
+    for( auto& pair : ModelProtoUniqueList )
+      for( zCModelPrototype* proto : pair.GetValues() )
+        proto->Release();
+
+    ModelProtoUniqueList.Clear();
   }
 
   void Game_Loop() {
@@ -67,11 +72,6 @@ namespace GOTHIC_ENGINE {
   }
 
   void LoadBegin() {
-    for( auto& pair : ModelProtoUniqueList )
-      for( zCModelPrototype* proto : pair.GetValues() )
-        proto->Release();
-
-    ModelProtoUniqueList.Clear();
   }
 
   void LoadEnd() {
