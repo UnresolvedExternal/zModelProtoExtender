@@ -146,10 +146,14 @@ namespace GOTHIC_ENGINE {
     struct AniStartInfo
     {
       zCModelAni* protoAni;
+      zCModelAni* nextAni;
+      zCModelAni* nextAniOverride;
       float progress;
 
       void ModifyAni( zCModelAniActive* activeAni ) const {
         activeAni->SetProgressPercent_Union( progress );
+        activeAni->nextAni = nextAni;
+        activeAni->nextAniOverride = nextAniOverride;
       }
 
       void Init( zCModelAniActive* activeAni ) {
@@ -169,6 +173,8 @@ namespace GOTHIC_ENGINE {
         anis.emplace_back();
         AniStartInfo& info = anis.back();
         info.protoAni = protoAni;
+        info.nextAni = activeAni->nextAni ? model.GetAniFromAniID( model.GetAniIDFromAniName( activeAni->nextAni->aniName ) ) : nullptr;
+        info.nextAniOverride = activeAni->nextAniOverride ? model.GetAniFromAniID( model.GetAniIDFromAniName( activeAni->nextAniOverride->aniName ) ) : nullptr;
         info.Init( activeAni );
       }
     }
